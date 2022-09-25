@@ -24,8 +24,32 @@ while (choix !== 0) {
       afficherPersonne(p);
       break;
     case 4:
+      if (perso.length > 0) {
+        afficherPersonne(perso[perso.length - 1]);
+        var saisie = 0;
+        while (saisie !== 1 && saisie !== 2) {
+          saisie = readline.questionInt(
+            "Voulez-vous vraiment supprimer ? 1 : oui - 2 : non "
+          );
+        }
+        if (saisie === 1) {
+          perso.pop();
+          console.log("Le personnage a été supprimer");
+        } else {
+          console.log("Annulation");
+        }
+      } else {
+        console.log("Y'a aucun personnage à supprimer");
+      }
       break;
     case 5:
+      var nom = readline.question("Quel est le nom recherche :");
+      var indice = recherchePerso(nom, perso);
+      if(indice !== -1) {
+        afficherPersonne(perso[indice]);
+      }else {
+        console.log(`Le personnage ayant le nom ${nom} n'existe pas`);
+      }
       break;
     case 0:
       console.log("A +");
@@ -38,6 +62,7 @@ while (choix !== 0) {
 /**
  * Fonction permettant d'afficher le menu
  */
+
 function menu() {
   let txt = "*************************************\n";
   txt += "1/ Afficher les personnages\n";
@@ -54,6 +79,7 @@ function menu() {
  * Fonction qui permet d'afficher une liste de personnages
  * @param {Array} tab tab : tableau de personnages
  */
+
 function afficherPersonnes(tab) {
   for (let i = 0; i < tab.length; i++) {
     console.log("******************");
@@ -62,10 +88,12 @@ function afficherPersonnes(tab) {
   }
   return;
 }
+
 /**
  * Fonction permettant d'afficher un personnage
  * @param {Array} tab tab : tableau contenant les information d'un personnage
  */
+
 function afficherPersonne(tab) {
   console.log("Nom : " + tab[0]);
   console.log("Age : " + tab[1]);
@@ -98,7 +126,7 @@ function creerPersonne() {
   var sexeInt = 0;
   while (sexeInt !== 1 && sexeInt !== 2) {
     sexeInt = readline.questionInt(
-      "Quel est le sexe ? (1 : Homme / 2 : Femme)"
+      "Quel est le sexe ? (1 : Homme / 2 : Femme) "
     );
   } // on sort quand sexeInt est égal à 1 ou égal à 2
   if (sexeInt === 1) {
@@ -107,4 +135,20 @@ function creerPersonne() {
     ajoutePersonne.push(false);
   }
   return ajoutePersonne;
+}
+
+/**
+ * Fonction permettant de récupérer la position d'un personnage
+ * @param {String} name : le nom recherché
+ * @param {Array} tab : tableau de personnages
+ * @returns {number} retourne l'indice du tableau ou -1 si non trouvé
+ */
+
+function recherchePerso(name, tab) {
+  for(let i = 0; i < tab.length; i++) {
+    if(tab[i][0].toLowerCase() === name.toLowerCase()) {
+      return i;
+    }
+  }
+  return -1;
 }
