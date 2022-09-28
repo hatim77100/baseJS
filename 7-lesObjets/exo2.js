@@ -1,7 +1,6 @@
 var readline = require("readline-sync");
 
 var persos = [];
-
 var choix = -1;
 while (choix !== 3) {
   menu();
