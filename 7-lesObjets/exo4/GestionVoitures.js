@@ -40,16 +40,16 @@ var parc = {
       console.log("Prix moyen : " + this.voitures[i].prix);
     }
   },
-  afficherParc : function () {
+  afficherParc: function () {
     var txt = "le parc " + this.nom + " présent à l'adresse : \n ";
     txt += this.adresse.libelle + "\n";
     txt += this.adresse.cp + " " + this.adresse.ville + "\n";
     txt += "******************************";
     console.log(txt);
   },
-  modifParc : function () {
+  modifParc: function () {
     var saisie = -1;
-    while(saisie !== 0) {
+    while (saisie !== 0) {
       var txt = "*************************\n";
       txt = "1/ Modifier le nom\n";
       txt += "2/ Modifier l'adresse\n";
@@ -57,17 +57,42 @@ var parc = {
       txt += "****************************";
       console.log(txt);
       saisie = readline.questionInt("Quel est votre choix. ? ");
-      switch(saisie) {
-        case 1: this.nom = readline.question("Quel est le nouveau nom ? ");
+      switch (saisie) {
+        case 1:
+          this.nom = readline.question("Quel est le nouveau nom ? ");
           break;
-        case 2: parc.adresse.libelle = readline.question("Quelle est la nouvelle rue ? ");
-                parc.adresse.cp = readline.questionInt("Quel est le nouveau CP ? ");
-                parc.adresse.ville = readline.question("Quelle est la nouvelle Ville ? ");
+        case 2:
+          parc.adresse.libelle = readline.question(
+            "Quelle est la nouvelle rue ? "
+          );
+          parc.adresse.cp = readline.questionInt("Quel est le nouveau CP ? ");
+          parc.adresse.ville = readline.question(
+            "Quelle est la nouvelle Ville ? "
+          );
           break;
-        case 0 : console.log("Annulation");
-        break;
-        default : console.log("cas non pris en compte");
+        case 0:
+          console.log("Annulation");
+          break;
+        default:
+          console.log("cas non pris en compte");
       }
+    }
+  },
+  suppressionModele: function (modele) {
+    var position = this.getPositionModele(modele);
+    if (position !== -1) {
+      this.voitures.splice(position, 1);
+      console.log("Suppression réussie");
+    } else {
+      console.log("Le modèle n'existe pas");
+    }
+  },
+  getPositionModele: function (modele) {
+    for (var i = 0; i < this.voitures.length; i++) {
+      if (this.voitures[i].modele.toLocaleLowerCase() === modele.toLocaleLowerCase()) {
+        return i;
+      }
+      return -1;
     }
   },
 };
